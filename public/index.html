@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mello Vibes Games — free games in your browser</title>
+<meta name="description" content="Six free games you can play right in your browser, on your phone or computer. Party brawler, street racing, co-op cooking and more. No downloads.">
+<meta name="theme-color" content="#0c0819">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mello Vibes Games — six free games, zero downloads">
+<meta property="og:description" content="Brawl, race, cook and survive with friends. Free in your browser.">
+<meta property="og:image" content="__SITE_URL__/og.png">
+<meta property="og:url" content="__SITE_URL__/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,500;0,700;0,900;1,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0c0819;
+    --surface: #161029;
+    --surface-2: #1f1738;
+    --line: rgba(255, 255, 255, .09);
+    --text: #f4f0ff;
+    --muted: #a99fc6;
+    --pink: #ff3d7f;
+    --yellow: #ffd23f;
+    --cyan: #3ee8ff;
+    --radius: 20px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 16px/1.5 Rubik, system-ui, -apple-system, "Segoe UI", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(800px 500px at 8% -10%, rgba(255, 61, 127, .20), transparent 60%),
+      radial-gradient(700px 500px at 100% 10%, rgba(62, 232, 255, .13), transparent 60%),
+      radial-gradient(900px 600px at 50% 110%, rgba(124, 77, 255, .16), transparent 60%);
+  }
+  a { color: inherit; }
+  .wrap { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 28px; } }
+
+  /* Header */
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 10px; }
+  .brand b { font-weight: 900; font-style: italic; letter-spacing: .01em; font-size: 20px; line-height: 1; white-space: nowrap; }
+  @media (max-width: 420px) {
+    .brand b { font-size: 16px; }
+    .brand img { width: 32px; height: 32px; }
+    header .btn { padding: 11px; }
+    header .btn .label { display: none; }
+  }
+  @media (max-width: 350px) { .brand b { font-size: 14px; } }
+  .brand b span { color: var(--pink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 0; border-radius: 999px; cursor: pointer;
+    font: 700 15px/1 Rubik, system-ui, sans-serif;
+    padding: 12px 18px; text-decoration: none; white-space: nowrap;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn:active { transform: translateY(1px) scale(.98); }
+  .btn-ghost { background: rgba(255, 255, 255, .07); color: var(--text); box-shadow: inset 0 0 0 1px var(--line); }
+  .btn-ghost:hover { background: rgba(255, 255, 255, .12); }
+  .btn svg { width: 18px; height: 18px; flex: none; }
+
+  /* Hero */
+  .hero { padding: 28px 0 36px; }
+  .hero h1 {
+    margin: 0; font-weight: 900; font-style: italic; text-transform: uppercase;
+    font-size: clamp(34px, 9vw, 92px); line-height: .92; letter-spacing: -.01em;
+  }
+  .hero h1 .l2 { display: block; color: var(--yellow); text-shadow: 0 4px 0 #c2185b; }
+  .hero p { margin: 18px 0 0; max-width: 560px; color: var(--muted); font-size: clamp(16px, 2.2vw, 19px); }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .stats li {
+    padding: 8px 14px; border-radius: 999px; background: rgba(255, 255, 255, .06);
+    box-shadow: inset 0 0 0 1px var(--line); font-weight: 500; font-size: 14px;
+  }
+  .stats b { font-weight: 900; color: var(--cyan); margin-right: 4px; }
+
+  /* Grid */
+  .grid { display: grid; gap: 20px; grid-template-columns: 1fr; padding-bottom: 56px; }
+  @media (min-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+
+  .card {
+    --c: var(--pink);
+    position: relative; display: flex; flex-direction: column;
+    background: var(--surface); border-radius: var(--radius); overflow: hidden;
+    text-decoration: none; box-shadow: inset 0 0 0 1px var(--line);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: inset 0 0 0 2px var(--c), 0 18px 40px -12px color-mix(in srgb, var(--c) 55%, transparent);
+    outline: none;
+  }
+  .art { position: relative; aspect-ratio: 1200 / 630; background: var(--art-bg, #000); overflow: hidden; }
+  .art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+  .card:hover .art img { transform: scale(1.04); }
+  .badge {
+    position: absolute; top: 12px; right: 12px;
+    padding: 5px 10px; border-radius: 999px;
+    font: 900 12px/1 Rubik, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+    background: var(--yellow); color: #1a1030; box-shadow: 0 4px 14px rgba(0, 0, 0, .35);
+  }
+  .badge.last { background: #fff; left: 12px; right: auto; }
+  .body { display: flex; flex-direction: column; gap: 12px; padding: 16px 18px 18px; flex: 1; }
+  .title { display: flex; align-items: center; gap: 12px; }
+  .title img { width: 48px; height: 48px; border-radius: 12px; flex: none; box-shadow: 0 0 0 1px var(--line); }
+  .title h2 { margin: 0; font-weight: 900; font-style: italic; font-size: 22px; line-height: 1.05; text-transform: uppercase; }
+  .genre { margin: 2px 0 0; color: var(--c); font-weight: 700; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+  .pitch { margin: 0; color: var(--muted); font-size: 15px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .tags li { font-size: 12.5px; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: var(--surface-2); color: #d9d2f0; }
+  .play {
+    margin-top: auto; align-self: flex-start;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 18px; border-radius: 999px;
+    background: var(--c); color: var(--on-c, #140a28);
+    font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 15px; letter-spacing: .02em;
+    box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 55%, #000);
+    transition: transform .15s ease;
+  }
+  .card:hover .play { transform: translateX(3px); }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+  footer p { margin: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<header class="wrap">
+  <a class="brand" href="/" aria-label="Mello Vibes Games home">
+    <img src="/icon-192.png" alt="" width="36" height="36">
+    <b>MELLO VIBES <span>GAMES</span></b>
+  </a>
+  <button class="btn btn-ghost" id="surprise" type="button" aria-label="Surprise me: play a random game" title="Play a random game">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="15.5" r="1.3" fill="currentColor"/><circle cx="15.5" cy="8.5" r="1.3" fill="currentColor"/><circle cx="8.5" cy="15.5" r="1.3" fill="currentColor"/></svg>
+    <span class="label">Surprise me</span>
+  </button>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Six games.<span class="l2">Zero downloads.</span></h1>
+    <p>Free games that play right in your browser, on your phone or your computer. Pick one and you're in.</p>
+    <ul class="stats" aria-label="At a glance">
+      <li><b>6</b>games</li>
+      <li><b>4</b>with online multiplayer</li>
+      <li><b>0</b>installs</li>
+    </ul>
+  </section>
+
+  <section class="grid" aria-label="Games">
+    <!-- To add a game: copy a card, point href at its URL, drop cover.webp + icon.webp in /games/<id>/. -->
+
+    <a class="card" data-id="bonkbrawl" href="https://bonkbrawl.vercel.app" style="--c:#ff3d7f; --art-bg:#140a28">
+      <div class="art">
+        <img src="/games/bonkbrawl/cover.webp" alt="Bonk Brawl key art: cartoon fighters on a city rooftop" width="1200" height="630">
+        <span class="badge">New</span>
+      </div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/bonkbrawl/icon.webp" alt="" width="48" height="48">
+          <div><h2>Bonk Brawl</h2><p class="genre">Party platform fighter</p></div>
+        </div>
+        <p class="pitch">Knock your friends off the stage. Weapons fall from the sky, and fighters from every game join the brawl.</p>
+        <ul class="tags"><li>Online · 4 players</li><li>Couch 2P</li><li>10 fighters</li></ul>
+        <span class="play">Fight free →</span>
+      </div>
+    </a>
+
+    <a class="card" data-id="cityrush" href="https://cityrush-pearl.vercel.app" style="--c:#ff4f93; --art-bg:#0d0b1a">
+      <div class="art"><img src="/games/cityrush/cover.webp" alt="City Rush key art: a race car on a neon city street at night" width="1200" height="630" loading="lazy"></div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/cityrush/icon.webp" alt="" width="48" height="48" loading="lazy">
+          <div><h2>City Rush</h2><p class="genre">Arcade street racing</p></div>
+        </div>
+        <p class="pitch">Drift for nitro and race real players through neon downtown and sunny suburbs.</p>
+        <ul class="tags"><li>Online · 4 racers</li><li>8 cars</li><li>Leaderboards</li></ul>
+        <span class="play">Race free →</span>
+      </div>
+    </a>
+
+    <a class="card" data-id="orderup" href="https://orderup-three.vercel.app" style="--c:#ff6a3d; --art-bg:#2a150b">
+      <div class="art"><img src="/games/orderup/cover.webp" alt="Order Up! key art: a busy cartoon kitchen with a giant burger" width="1200" height="630" loading="lazy"></div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/orderup/icon.webp" alt="" width="48" height="48" loading="lazy">
+          <div><h2>Order Up!</h2><p class="genre">Co-op kitchen chaos</p></div>
+        </div>
+        <p class="pitch">Chop, cook, plate and serve against the clock, solo or with up to four chefs online.</p>
+        <ul class="tags"><li>Online co-op · 4 chefs</li><li>2 kitchens</li><li>Leaderboards</li></ul>
+        <span class="play">Cook now →</span>
+      </div>
+    </a>
+
+    <a class="card" data-id="orbyt" href="https://orbyt-wine.vercel.app" style="--c:#3ee8ff; --art-bg:#0b0620">
+      <div class="art"><img src="/games/orbyt/cover.webp" alt="ORBYT key art: glowing orbit rings with spikes" width="1200" height="630" loading="lazy"></div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/orbyt/icon.webp" alt="" width="48" height="48" loading="lazy">
+          <div><h2>ORBYT</h2><p class="genre">One-tap arcade</p></div>
+        </div>
+        <p class="pitch">One tap. Two orbits. No mercy. Dodge spikes, chain perfects and beat the daily challenge.</p>
+        <ul class="tags"><li>Live duels</li><li>Daily challenge</li><li>7 skins</li></ul>
+        <span class="play">Play free →</span>
+      </div>
+    </a>
+
+    <a class="card" data-id="graveshift" href="https://graveshift.vercel.app" style="--c:#6dffae; --art-bg:#0b0a17">
+      <div class="art"><img src="/games/graveshift/cover.webp" alt="Grave Shift key art: a hero with a blaster facing zombies under a full moon" width="1200" height="630" loading="lazy"></div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/graveshift/icon.webp" alt="" width="48" height="48" loading="lazy">
+          <div><h2>Grave Shift</h2><p class="genre">Horde survival shooter</p></div>
+        </div>
+        <p class="pitch">One thumb, endless undead. Level up your weapons and survive the graveyard until dawn.</p>
+        <ul class="tags"><li>One thumb</li><li>6 weapons</li><li>3 bosses</li></ul>
+        <span class="play">Survive →</span>
+      </div>
+    </a>
+
+    <a class="card" data-id="spacediner" href="https://spacediner.vercel.app" style="--c:#ffc53d; --art-bg:#10163a">
+      <div class="art"><img src="/games/spacediner/cover.webp" alt="Space Diner key art: a phone showing a burger diner on the Moon" width="1200" height="630" loading="lazy"></div>
+      <div class="body">
+        <div class="title">
+          <img src="/games/spacediner/icon.webp" alt="" width="48" height="48" loading="lazy">
+          <div><h2>Space Diner</h2><p class="genre">Cozy idle tycoon</p></div>
+        </div>
+        <p class="pitch">Run a burger joint on the Moon, grow it, then launch your diner to Mars and Europa.</p>
+        <ul class="tags"><li>3 planets</li><li>9 foods</li><li>Earns while you're away</li></ul>
+        <span class="play">Open up →</span>
+      </div>
+    </a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© <span id="year">2026</span> Mello Vibes Games</p>
+    <p>Built with Unity · 3D art by <a href="https://kenney.nl" target="_blank" rel="noopener">Kenney</a> (CC0)</p>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var KEY = "mvg:last";
+    var cards = Array.prototype.slice.call(document.querySelectorAll(".card"));
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // "Last played" badge — per-browser convenience only.
+    var last = null;
+    try { last = localStorage.getItem(KEY); } catch (e) {}
+    cards.forEach(function (card) {
+      if (card.dataset.id === last) {
+        var b = document.createElement("span");
+        b.className = "badge last";
+        b.textContent = "Last played";
+        card.querySelector(".art").appendChild(b);
+      }
+      card.addEventListener("click", function () {
+        try { localStorage.setItem(KEY, card.dataset.id); } catch (e) {}
+      });
+    });
+
+    document.getElementById("surprise").addEventListener("click", function () {
+      var pick = cards[Math.floor(Math.random() * cards.length)];
+      try { localStorage.setItem(KEY, pick.dataset.id); } catch (e) {}
+      location.href = pick.href;
+    });
+  })();
+</script>
+</body>
+</html>

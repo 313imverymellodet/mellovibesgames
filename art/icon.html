@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Source for public/icon-512.png and icon-192.png. Render at 512×512 (see README). -->
+<html><head><meta charset="utf-8"><style>
+  html, body { margin: 0; width: 512px; height: 512px; background: transparent; }
+  .i { width: 512px; height: 512px; border-radius: 112px; overflow: hidden; position: relative;
+       background: radial-gradient(120% 120% at 0% 0%, #ff3d7f 0%, #9b3dff 55%, #2a1466 100%); }
+  .i::after { content: ""; position: absolute; inset: 0; border-radius: inherit;
+              background: radial-gradient(60% 40% at 30% 15%, rgba(255,255,255,.28), transparent 70%); }
+  svg { position: absolute; inset: 0; }
+</style></head><body><div class="i">
+  <svg viewBox="0 0 512 512">
+    <!-- orbit ring (ORBYT nod) -->
+    <circle cx="256" cy="256" r="178" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="14"/>
+    <circle cx="398" cy="148" r="22" fill="#3ee8ff"/>
+    <!-- play button with drop shadow -->
+    <path d="M206 158 Q196 152 196 164 L196 348 Q196 360 206 354 L360 266 Q370 256 360 246 Z" fill="#c2185b" transform="translate(0 14)"/>
+    <path d="M206 158 Q196 152 196 164 L196 348 Q196 360 206 354 L360 266 Q370 256 360 246 Z" fill="#ffd23f"/>
+  </svg>
+</div></body></html>
