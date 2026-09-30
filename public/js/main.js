@@ -47,6 +47,25 @@ for (const link of navLinks) {
   }, { rootMargin: "-45% 0px -50% 0px" }).observe(section);
 }
 
+// Mobile menu: section links + a quick launcher for every game.
+{
+  const btn = $("#menu-btn");
+  const menu = $("#menu");
+  $("#menu-games").innerHTML = GAMES.map((g) =>
+    `<li><a href="${g.url}" data-game="${g.id}"><img src="/games/${g.id}/icon.webp" alt="" width="40" height="40" loading="lazy">${esc(g.name)}</a></li>`).join("");
+  const set = (open) => {
+    menu.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Close menu" : "Menu");
+    nav.classList.toggle("menu-open", open);
+  };
+  btn.addEventListener("click", () => set(menu.hidden));
+  menu.addEventListener("click", (e) => { if (e.target.closest("a")) set(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !menu.hidden) { set(false); btn.focus(); } });
+  document.addEventListener("pointerdown", (e) => { if (!menu.hidden && !nav.contains(e.target)) set(false); });
+  matchMedia("(min-width: 900px)").addEventListener("change", (e) => { if (e.matches) set(false); });
+}
+
 // ---------------------------------------------------------------- hero: attract mode
 const cab = (() => {
   const root = $("#cab");
@@ -177,6 +196,17 @@ const cab = (() => {
     });
   }
 
+  // Swipe left/right on the screen to change games (touch and pen; vertical drags still scroll the page).
+  let swipe = null;
+  stage.addEventListener("pointerdown", (e) => { if (e.pointerType !== "mouse") swipe = { x: e.clientX, y: e.clientY }; });
+  stage.addEventListener("pointerup", (e) => {
+    if (!swipe) return;
+    const dx = e.clientX - swipe.x, dy = e.clientY - swipe.y;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) show(state.i + (dx < 0 ? 1 : -1));
+    swipe = null;
+  });
+  stage.addEventListener("pointercancel", () => { swipe = null; });
+
   if (reduced.matches) root.classList.add("stopped");
   syncPaused();
   show(0);
@@ -261,14 +291,23 @@ const cab = (() => {
   const sheet = $("#sheet");
   const CLOSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
+  // On touchscreens, list the Touch controls right after the action name.
+  function orderedControls({ cols, rows }) {
+    const t = cols.indexOf("Touch");
+    if (t < 2 || finePointer.matches) return { cols, rows };
+    const order = [0, t, ...cols.map((_, k) => k).filter((k) => k !== 0 && k !== t)];
+    return { cols: order.map((k) => cols[k]), rows: rows.map((r) => order.map((k) => r[k])) };
+  }
+
   function open(id) {
     const g = gameById[id];
+    const controls = orderedControls(g.controls);
     const art = g.stage.screen.kind === "wide" ? g.stage.screen.src : `/games/${g.id}/cover.webp`;
     sheet.style.setProperty("--c", g.accent);
     sheet.style.setProperty("--bg", g.bg);
     sheet.innerHTML = `
+      <div class="sheet-top"><button class="sheet-close" type="button" aria-label="Close">${CLOSE}</button></div>
       <div class="sheet-art"><img src="${art}" alt=""></div>
-      <button class="sheet-close" type="button" aria-label="Close">${CLOSE}</button>
       <div class="sheet-body">
         <div class="sheet-head">
           <img src="/games/${g.id}/icon.webp" alt="" width="72" height="72">
@@ -279,8 +318,8 @@ const cab = (() => {
         <section><h3>How to play</h3><ol class="steps">${g.howTo.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></section>
         <section><h3>Controls</h3>
           <div class="controls-wrap"><table class="controls"><caption class="sr-only">${esc(g.name)} controls</caption>
-            <thead><tr>${g.controls.cols.map((c) => `<th scope="col">${esc(c)}</th>`).join("")}</tr></thead>
-            <tbody>${g.controls.rows.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
+            <thead><tr>${controls.cols.map((c) => `<th scope="col">${esc(c)}</th>`).join("")}</tr></thead>
+            <tbody>${controls.rows.map((r) => `<tr>${r.map((c, k) => `<td data-label="${esc(controls.cols[k])}">${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody>
           </table></div>
         </section>
         <section><h3>Modes &amp; features</h3><ul class="tags">${g.modes.map((m) => `<li>${esc(m)}</li>`).join("")}</ul></section>
@@ -328,9 +367,9 @@ const cab = (() => {
       <div class="statbars">${STATS.map(([k, label]) =>
         `<div><span>${label}</span><span class="track"><i data-k="${k}" style="--v:0%"></i></span><b data-k="${k}"></b></div>`).join("")}
       </div>
-      <a class="btn btn-primary" href="${gameById.bonkbrawl.url}" data-game="bonkbrawl"></a>
     </div>
-    <div class="spot-fig"></div>`;
+    <div class="spot-fig"></div>
+    <div class="spot-cta"><a class="btn btn-primary" href="${gameById.bonkbrawl.url}" data-game="bonkbrawl"></a></div>`;
 
   const picks = $$(".pick", picker);
   let current = -1;
@@ -419,7 +458,17 @@ const cab = (() => {
     game.input();
   }
 
-  frame.addEventListener("pointerdown", (e) => { e.preventDefault(); frame.focus({ preventScroll: true }); press(); });
+  let down = null;
+  frame.addEventListener("pointerdown", (e) => {
+    frame.focus({ preventScroll: true });
+    if (playing || e.pointerType === "mouse") { e.preventDefault(); press(); }
+    else down = { x: e.clientX, y: e.clientY, t: performance.now() };
+  });
+  frame.addEventListener("pointerup", (e) => {
+    if (down && Math.hypot(e.clientX - down.x, e.clientY - down.y) < 12 && performance.now() - down.t < 600) press();
+    down = null;
+  });
+  frame.addEventListener("pointercancel", () => { down = null; }); // the browser took over for a scroll
   frame.addEventListener("keydown", (e) => {
     if (e.key === " " || e.key === "Enter") { e.preventDefault(); if (!e.repeat) press(); }
   });
