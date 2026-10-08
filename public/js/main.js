@@ -34,6 +34,18 @@ $$(".js-random").forEach((btn) =>
 
 $("#year").textContent = new Date().getFullYear();
 
+// Every number on the page comes from data.js, so adding a game never leaves stale copy behind.
+const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
+  "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
+const word = (n) => WORDS[n] || String(n);
+const NEW_GAMES = GAMES.filter((g) => g.badge === "New");
+{
+  const counts = { games: GAMES.length, online: GAMES.filter((g) => g.filters.includes("online")).length, fighters: FIGHTERS.length };
+  $$("[data-stat]").forEach((dd) => { dd.dataset.count = counts[dd.dataset.stat]; dd.textContent = counts[dd.dataset.stat]; });
+  $$(".js-count-word").forEach((el) => (el.textContent = word(GAMES.length)));
+  $$(".js-new-count").forEach((el) => (el.textContent = word(NEW_GAMES.length)));
+}
+
 // Nav: solid background once scrolled, and highlight the section in view.
 const nav = $("#nav");
 const onScroll = () => nav.classList.toggle("scrolled", scrollY > 8);
@@ -142,6 +154,10 @@ const cab = (() => {
       bar.style.animation = "";
     });
     if (focus) tabEls[state.i].focus();
+    const t = tabEls[state.i];
+    if (tabs.scrollWidth > tabs.clientWidth) {
+      tabs.scrollTo({ left: t.offsetLeft - (tabs.clientWidth - t.offsetWidth) / 2, behavior: reduced.matches ? "auto" : "smooth" });
+    }
     document.documentElement.style.setProperty("--accent", g.accent);
     renderInfo(g);
     syncOrbyt();
@@ -213,11 +229,33 @@ const cab = (() => {
   return { show };
 })();
 
+// ---------------------------------------------------------------- what's new
+{
+  $("#drops").innerHTML = NEW_GAMES.map((g) => `
+    <li><button class="drop" type="button" data-sheet="${g.id}" style="--c:${g.accent};--bg:${g.bg}">
+      <img class="drop-art" src="/games/${g.id}/cover.webp" alt="" width="1200" height="630" loading="lazy" decoding="async">
+      <span class="drop-body">
+        <img src="/games/${g.id}/icon.webp" alt="" width="48" height="48" loading="lazy">
+        <span><span class="drop-k">${esc(g.genre)}</span><span class="drop-name">${esc(g.name)}</span></span>
+      </span>
+    </button></li>`).join("");
+  $("#hooks").innerHTML = GAMES.filter((g) => g.badge !== "New").map((g) => `
+    <li class="hook" style="--c:${g.accent}">
+      <p class="hook-game"><img src="/games/${g.id}/icon.webp" alt="" width="28" height="28" loading="lazy">${esc(g.name)}</p>
+      <h3>${esc(g.hook.name)}</h3>
+      <p class="hook-text">${esc(g.hook.text)}</p>
+      <div class="hook-acts">
+        <a class="btn btn-primary btn-sm" href="${g.url}" data-game="${g.id}" style="--on:${g.ink}">Try it<span class="sr-only"> in ${esc(g.name)}</span> ${ARROW}</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-sheet="${g.id}">How to play<span class="sr-only">: ${esc(g.name)}</span></button>
+      </div>
+    </li>`).join("");
+}
+
 // ---------------------------------------------------------------- marquee
 {
   const set = GAMES.map((g, i) =>
     `<span class="marquee-item${i % 2 ? " o" : ""}"><img src="/games/${g.id}/icon.webp" alt="" width="44" height="44">${esc(g.word)}</span>`).join("");
-  $("#marquee").innerHTML = set.repeat(4); // two copies per half, so the -50% loop is seamless on wide screens
+  $("#marquee").innerHTML = set.repeat(2); // two copies, so the -50% loop is seamless
 }
 
 // ---------------------------------------------------------------- lineup
@@ -233,14 +271,14 @@ const cab = (() => {
         <a class="card-art" href="${g.url}" data-game="${g.id}" tabindex="-1" aria-hidden="true">
           <img src="/games/${g.id}/cover.webp" alt="" width="1200" height="630" loading="lazy" decoding="async">
         </a>
-        ${g.isNew ? '<span class="badge">New</span>' : ""}
+        ${g.badge ? `<span class="badge${g.badge === "New" ? "" : " event"}">${esc(g.badge)}</span>` : ""}
         ${g.id === last ? '<span class="badge last">Last played</span>' : ""}
         <div class="card-body">
           <img class="card-icon" src="/games/${g.id}/icon.webp" alt="" width="62" height="62" loading="lazy">
           <p class="genre">${esc(g.genre)}</p>
           <h3>${esc(g.name)}</h3>
           <p class="pitch">${esc(g.pitch)}</p>
-          <ul class="tags" aria-label="Features">${g.tags.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+          <ul class="tags" aria-label="Features"><li class="hook-tag"><span class="sr-only">Signature mechanic: </span>${esc(g.hook.name)}</li>${g.tags.filter((t) => t !== g.hook.name).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
           <div class="acts">
             <a class="btn btn-primary btn-sm" href="${g.url}" data-game="${g.id}" style="--on:${g.ink}">Play<span class="sr-only"> ${esc(g.name)}</span> ${ARROW}</a>
             <button class="btn btn-ghost btn-sm" type="button" data-sheet="${g.id}">How to play<span class="sr-only">: ${esc(g.name)}</span></button>
@@ -315,6 +353,7 @@ const cab = (() => {
           <h2 id="sheet-title">${esc(g.name)}</h2>
         </div>
         <p style="color:var(--muted)">${esc(g.pitch)}</p>
+        <section class="sheet-hook"><h3>The hook</h3><p><b>${esc(g.hook.name)}.</b> ${esc(g.hook.text)}</p></section>
         <section><h3>How to play</h3><ol class="steps">${g.howTo.map((s) => `<li>${esc(s)}</li>`).join("")}</ol></section>
         <section><h3>Controls</h3>
           <div class="controls-wrap"><table class="controls"><caption class="sr-only">${esc(g.name)} controls</caption>
@@ -388,7 +427,7 @@ const cab = (() => {
     const origin = f.from ? gameById[f.from] : null;
     $(".from", spot).innerHTML = origin
       ? `<img src="/games/${origin.id}/icon.webp" alt="" width="22" height="22">From ${esc(origin.name)}`
-      : "A Bonk Brawl original";
+      : f.event ? `${esc(f.event)} costume fighter` : "A Bonk Brawl original";
     const h3 = $("h3", spot);
     h3.textContent = f.name;
     h3.style.animation = "none"; void h3.offsetWidth; h3.style.animation = "";
@@ -585,6 +624,7 @@ const cab = (() => {
 // ---------------------------------------------------------------- under the hood: sizes, rooms
 {
   const max = Math.max(...Object.values(BUILD_BYTES));
+  $("#size-max").textContent = `${(max / 1e6).toFixed(1)} MB`;
   $("#size-bars").innerHTML = GAMES.map((g, i) => {
     const b = BUILD_BYTES[g.id];
     return `<li style="--c:${g.accent}">
@@ -618,11 +658,12 @@ $("#foot-src").innerHTML = GAMES.map((g) => `<li><a href="${REPO(g.id)}" rel="no
 // ---------------------------------------------------------------- scroll reveal + count-up
 {
   const targets = [
-    ...$$(".section-head"), ...$$(".lineup > li"), $("#roster-app"), $(".try-copy"), $(".try-play"), $(".closer"),
+    ...$$(".section-head"), ...$$(".lineup > li"), ...$$(".drops > li"), ...$$(".hooks > li"), $("#roster-app"), $(".try-copy"), $(".try-play"), $(".closer"),
   ];
   targets.forEach((el) => el.classList.add("reveal"));
   $$(".lineup > li").forEach((li, i) => li.style.setProperty("--rd", `${(i % 3) * 0.08}s`));
   $$(".bento .tile").forEach((t, i) => t.style.setProperty("--rd", `${(i % 4) * 0.06}s`));
+  $$(".drops > li, .hooks > li").forEach((li, i) => li.style.setProperty("--rd", `${(i % 4) * 0.06}s`));
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { rootMargin: "0px 0px -8% 0px" });

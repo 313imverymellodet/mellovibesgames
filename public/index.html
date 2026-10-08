@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mello Vibes Games — six free games, zero downloads</title>
-<meta name="description" content="Six free games you can play right in your browser, on your phone or computer: a party brawler with rollback netcode, street racing, co-op cooking, a one-tap arcade game, horde survival and an idle diner on the Moon.">
+<title>Mello Vibes Games — ten free games, zero downloads</title>
+<meta name="description" content="Ten free games you can play right in your browser, on your phone or computer: a kart battle arena, rewind-time speedruns, a snack-merging monster, a space warehouse, a party brawler with rollback netcode, street racing, a rhythm kitchen and more.">
 <meta name="theme-color" content="#07060f">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/icon-192.png" type="image/png">
@@ -13,8 +13,8 @@
 <link rel="canonical" href="__SITE_URL__/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mello Vibes Games">
-<meta property="og:title" content="Mello Vibes Games — six free games, zero downloads">
-<meta property="og:description" content="Brawl, race, cook and survive with friends. Free in your browser.">
+<meta property="og:title" content="Mello Vibes Games — ten free games, zero downloads">
+<meta property="og:description" content="Battle, race, brawl and merge with friends. Free in your browser.">
 <meta property="og:image" content="__SITE_URL__/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="/shots/bonkbrawl.webp" type="image/webp">
+<link rel="preload" as="image" href="/shots/kartchaos.webp" type="image/webp">
 <link rel="modulepreload" href="/js/data.js">
 <link rel="stylesheet" href="/css/site.css">
 <script>document.documentElement.classList.add("js")</script>
@@ -41,6 +41,7 @@
     </a>
     <nav aria-label="Sections">
       <ul class="nav-links">
+        <li><a href="#new">What's new</a></li>
         <li><a href="#games">Games</a></li>
         <li><a href="#roster">Roster</a></li>
         <li><a href="#try">Try ORBYT</a></li>
@@ -60,6 +61,7 @@
   <div class="menu" id="menu" hidden>
     <div class="wrap">
       <ul class="menu-links">
+        <li><a href="#new">What's new</a></li>
         <li><a href="#games">Games</a></li>
         <li><a href="#roster">Roster</a></li>
         <li><a href="#try">Try ORBYT</a></li>
@@ -77,10 +79,10 @@
     <div class="hero-copy">
       <p class="eyebrow"><span class="pulse" aria-hidden="true"></span>Free browser games · phone &amp; desktop</p>
       <h1 id="hero-title" class="display">
-        <span class="line">Six games.</span>
+        <span class="line"><span class="js-count-word">Ten</span> games.</span>
         <span class="line accent-line">Zero downloads.</span>
       </h1>
-      <p class="lede">Brawl, race, cook and survive with your friends, right in your browser. Every game here was built from scratch in Unity and loads in one tap.</p>
+      <p class="lede">Battle, race, brawl and merge with your friends, right in your browser. Every game here was built from scratch in Unity and loads in one tap.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#games">Browse the lineup <span aria-hidden="true">↓</span></a>
         <button class="btn btn-ghost js-random" type="button">Surprise me</button>
@@ -100,9 +102,9 @@
       </div>
     </div>
     <dl class="stats">
-      <div><dt>Games</dt><dd data-count="6">6</dd></div>
-      <div><dt>Online multiplayer</dt><dd data-count="4">4</dd></div>
-      <div><dt>Crossover fighters</dt><dd data-count="10">10</dd></div>
+      <div><dt>Games</dt><dd data-count="10" data-stat="games">10</dd></div>
+      <div><dt>Online multiplayer</dt><dd data-count="6" data-stat="online">6</dd></div>
+      <div><dt>Brawlers</dt><dd data-count="15" data-stat="fighters">15</dd></div>
       <div><dt>Installs</dt><dd>0</dd></div>
     </dl>
   </section>
@@ -111,6 +113,19 @@
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" id="marquee"></div>
   </div>
+
+  <!-- ============ WHAT'S NEW ============ -->
+  <section class="section wrap news" id="new" aria-labelledby="new-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">October update</p>
+        <h2 id="new-title" class="display h2"><span class="js-new-count">Four</span> new games.<br><span class="accent-line">A new hook for every original.</span></h2>
+      </div>
+      <p class="section-sub">Fresh drops this month, plus a signature mechanic added to each of the first six games. Tap any of them for how it plays.</p>
+    </div>
+    <ul class="drops" id="drops" aria-label="New games"></ul>
+    <ul class="hooks" id="hooks" aria-label="New hooks in the original games"></ul>
+  </section>
 
   <!-- ============ LINEUP ============ -->
   <section class="section wrap" id="games" aria-labelledby="games-title">
@@ -131,9 +146,9 @@
       <div class="section-head">
         <div>
           <p class="eyebrow">Bonk Brawl roster</p>
-          <h2 id="roster-title" class="display h2">Every game sends a fighter.</h2>
+          <h2 id="roster-title" class="display h2">Choose your fighter.</h2>
         </div>
-        <p class="section-sub">Ten crossover brawlers from across the collection, each with their own weight, speed and jump. Pick a favorite, then take them online.</p>
+        <p class="section-sub">Crossover brawlers from Order Up!, Space Diner, City Rush and Grave Shift, plus five Spooktober costume fighters. Each has its own weight, speed and jump.</p>
       </div>
       <div class="roster" id="roster-app">
         <div class="spot" id="spot" aria-live="polite"></div>
@@ -153,7 +168,7 @@
         <div><span class="k">Best</span><span class="v" id="try-best">0</span></div>
       </div>
       <a class="btn btn-primary" style="--c:#3ee8ff; --on:#021a1f" href="https://orbyt-wine.vercel.app">Play the full game <span aria-hidden="true">→</span></a>
-      <p class="fine">The full game adds a daily challenge, live duels, skins and a global leaderboard.</p>
+      <p class="fine">The full game adds ECHO (your last run comes back to haunt you), a daily challenge, live duels, skins and a global leaderboard.</p>
     </div>
     <div class="try-play">
       <div class="try-frame" id="try-frame" tabindex="0" role="application" aria-label="ORBYT mini game. Press Space or Enter, or tap, to switch orbits." aria-describedby="try-status">
@@ -192,7 +207,7 @@
       </article>
 
       <article class="tile t-synth reveal">
-        <p class="tile-k">All six games · audio</p>
+        <p class="tile-k">Every game · audio</p>
         <h3>Zero audio files.</h3>
         <p>Engines, explosions and every soundtrack are synthesized in code at startup. Here's one written for this page.</p>
         <canvas class="scope" id="scope" aria-hidden="true"></canvas>
@@ -216,7 +231,7 @@
       <article class="tile t-size reveal">
         <p class="tile-k">Build size · Brotli-compressed</p>
         <h3>About 6 MB a game.</h3>
-        <p>That's the entire game, with engine, art, physics and music included. The biggest one is 6.3 MB.</p>
+        <p>That's the entire game, with engine, art, physics and music included. The biggest one is <span id="size-max">6.8 MB</span>.</p>
         <ul class="bars" id="size-bars"></ul>
       </article>
 

@@ -4,6 +4,10 @@ The home for all the Mello Vibes browser games. It's a single-page showcase with
 
 | Game | Live | Source |
 |---|---|---|
+| Kart Chaos | https://kartchaos.vercel.app | [kartchaos](https://github.com/313imverymellodet/kartchaos) |
+| Obby Rush | https://obbyrush.vercel.app | [obbyrush](https://github.com/313imverymellodet/obbyrush) |
+| Snack Monster | https://snackmerge.vercel.app | [snackmerge](https://github.com/313imverymellodet/snackmerge) |
+| Orbit Depot | https://orbitdepot.vercel.app | [orbitdepot](https://github.com/313imverymellodet/orbitdepot) |
 | Bonk Brawl | https://bonkbrawl.vercel.app | [bonkbrawl](https://github.com/313imverymellodet/bonkbrawl) |
 | City Rush | https://cityrush-pearl.vercel.app | [cityrush](https://github.com/313imverymellodet/cityrush) |
 | Order Up! | https://orderup-three.vercel.app | [orderup](https://github.com/313imverymellodet/orderup) |
@@ -17,6 +21,7 @@ The home for all the Mello Vibes browser games. It's a single-page showcase with
   - The whole page's accent color eases to the active game's color, using a registered `@property`.
   - The rotation timer *is* the progress bar's CSS animation, so hovering, focusing, pausing and scrolling off-screen all pause it for free.
   - The ORBYT slide runs the live mini-game on autopilot.
+- **What's new.** The newest games (those with `badge: "New"`) as cover cards, then each other game's signature mechanic (`hook`) with a link to try it.
 - **The lineup.** Filterable cards, animated with View Transitions, with a 3D tilt and a glare that follows the pointer. Each card has a "How to play" sheet built on native `<dialog>` with a controls table for every game.
 - **Fighter select.** The Bonk Brawl roster, using the stats straight from `Defs.cs`. It's a keyboard-navigable radio group with animated stat bars.
 - **Playable ORBYT.** An under-300-line canvas remake of ORBYT's core loop (`js/orbyt.js`): perfects, combos and direction flips every 25 points, with your best score saved locally.
@@ -63,9 +68,9 @@ npx serve public          # or: python3 -m http.server -d public
    node tools/build-assets.mjs ..   # the folder that holds the game repos
    ```
    That writes `games/<id>/cover.webp` and `icon.webp`, plus any screenshots and renders the hero slide uses. It needs Playwright, which it uses as the image encoder.
-3. Update the hero stats in `index.html` ("6 games", "4 online multiplayer").
+3. Give it a `hook` (its signature mechanic) and, while it's fresh, `badge: "New"`. New games appear in the What's new section and get a NEW badge; any other badge text (like `"Spooktober"`) shows as an event badge.
 
-To move the **NEW** badge, set `isNew: true` on the newest game in `data.js`.
+Every count on the page (the "Ten games" headline, the hero stats, "Four new games", the biggest build size) is computed from `data.js`, so there's nothing else to update. Add the build size to `BUILD_BYTES` (the sum of the game's `dist/Build/*` files), and add the game's cover to `art/og.html` if you re-render the share card.
 
 ## Re-rendering the share card and icons
 Open `art/og.html` (1200×630) or `art/icon.html` (512×512) in Chrome while online, so the fonts load, and screenshot it at exactly that size. Save the results as `public/og.png` and `public/icon-512.png` / `icon-192.png`.

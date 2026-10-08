@@ -23,10 +23,14 @@ let chromium;
 try { ({ chromium } = await import("playwright")); }
 catch { ({ chromium } = await import(path.join(process.env.PLAYWRIGHT_DIR || "/opt/node22/lib/node_modules/playwright", "index.mjs"))); }
 
-const GAMES = ["bonkbrawl", "cityrush", "orderup", "orbyt", "graveshift", "spacediner"];
+const GAMES = ["kartchaos", "obbyrush", "snackmerge", "orbitdepot", "bonkbrawl", "cityrush", "orderup", "orbyt", "graveshift", "spacediner"];
 
-// [source (relative to SRC), output name, max width, quality]
+// [source (relative to SRC), output name, max width, quality, optional crop [x, y, w, h] in source pixels]
 const SHOTS = [
+  ["orbitdepot/art/bg.png", "orbitdepot", 1600, 0.8],
+  ["kartchaos/portal-art/raw/land-3.png", "kartchaos", 1600, 0.8],
+  // no clean portrait capture: crop the jar out of the store art
+  ["snackmerge/portal-art/cg-portrait-800x1200.png", "snackmerge-portrait", 600, 0.8, [40, 270, 720, 930]],
   ["bonkbrawl/art/shot.png", "bonkbrawl", 1600, 0.8],
   ["cityrush/art/shot.png", "cityrush", 1200, 0.82],
   ["orderup/art/shot.png", "orderup", 1600, 0.8],
@@ -47,6 +51,12 @@ const CAST = [
   ["bonkbrawl/art/p/character-human.png", "knight", 460],
   ["bonkbrawl/art/p/character-male-c.png", "racer", 460],
   ["bonkbrawl/art/p/character-ghost.png", "ghost", 460],
+  // Spooktober costume fighters (the game's own select-screen renders)
+  ["bonkbrawl/unity/Assets/Resources/Icons/bear.png", "bear", 460],
+  ["bonkbrawl/unity/Assets/Resources/Icons/dog.png", "dog", 460],
+  ["bonkbrawl/unity/Assets/Resources/Icons/duck.png", "duck", 460],
+  ["bonkbrawl/unity/Assets/Resources/Icons/jack.png", "jack", 460],
+  ["bonkbrawl/unity/Assets/Resources/Icons/witch.png", "witch", 460],
   // weapons
   ["bonkbrawl/art/p/weapon-sword.png", "sword", 300],
   ["bonkbrawl/art/p/frying-pan.png", "frying-pan", 300],
@@ -64,6 +74,16 @@ const CAST = [
   ["orderup/art/cheese.png", "cheese", 260],
   ["orderup/art/salad.png", "salad", 300],
   ["orderup/art/chefs/character-female-a.png", "chef-knives", 420],
+  // Obby Rush skins
+  ["obbyrush/unity/Assets/Resources/Icons/knight.png", "obby-knight", 420],
+  ["obbyrush/unity/Assets/Resources/Icons/ranger.png", "obby-ranger", 420],
+  ["obbyrush/unity/Assets/Resources/Icons/mage.png", "obby-mage", 420],
+  // Snack Monster ladder
+  ["snackmerge/unity/Assets/Resources/Icons/watermelon.png", "snack-watermelon", 240],
+  ["snackmerge/unity/Assets/Resources/Icons/cupcake.png", "snack-cupcake", 240],
+  ["snackmerge/unity/Assets/Resources/Icons/donut.png", "snack-donut", 240],
+  ["snackmerge/unity/Assets/Resources/Icons/strawberry.png", "snack-strawberry", 200],
+  ["snackmerge/unity/Assets/Resources/Icons/cake.png", "snack-cake", 240],
 ];
 
 const PX = [
@@ -76,13 +96,13 @@ const browser = await chromium.launch();
 const page = await browser.newPage();
 
 // Runs in the page: decode PNG, optionally trim transparent edges, scale to fit, encode WebP.
-async function encode(file, { maxW, maxEdge, quality, trim }) {
+async function encode(file, { maxW, maxEdge, quality, trim, crop }) {
   const b64 = fs.readFileSync(file).toString("base64");
-  const res = await page.evaluate(async ({ b64, maxW, maxEdge, quality, trim }) => {
+  const res = await page.evaluate(async ({ b64, maxW, maxEdge, quality, trim, crop }) => {
     const img = new Image();
     img.src = "data:image/png;base64," + b64;
     await img.decode();
-    let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+    let [sx, sy, sw, sh] = crop || [0, 0, img.naturalWidth, img.naturalHeight];
     if (trim) {
       const c = new OffscreenCanvas(sw, sh), x = c.getContext("2d");
       x.drawImage(img, 0, 0);
@@ -103,7 +123,7 @@ async function encode(file, { maxW, maxEdge, quality, trim }) {
     x.imageSmoothingQuality = "high";
     x.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
     return { url: c.toDataURL("image/webp", quality), w, h };
-  }, { b64, maxW, maxEdge, quality, trim });
+  }, { b64, maxW, maxEdge, quality, trim, crop });
   return { buf: Buffer.from(res.url.split(",")[1], "base64"), w: res.w, h: res.h };
 }
 
@@ -118,8 +138,8 @@ for (const g of GAMES) {
   write(`games/${g}/cover.webp`, (await encode(`${SRC}/${g}/dist/og.png`, { maxW: 1200, quality: 0.82 })).buf);
   write(`games/${g}/icon.webp`, (await encode(`${SRC}/${g}/dist/icon-512.png`, { maxW: 160, quality: 0.9 })).buf);
 }
-for (const [src, name, maxW, q] of SHOTS) {
-  const r = await encode(`${SRC}/${src}`, { maxW, quality: q });
+for (const [src, name, maxW, q, crop] of SHOTS) {
+  const r = await encode(`${SRC}/${src}`, { maxW, quality: q, crop });
   write(`shots/${name}.webp`, r.buf); sizes[`shots/${name}`] = [r.w, r.h];
 }
 for (const [src, name, edge] of CAST) {
