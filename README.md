@@ -1,6 +1,6 @@
 # Mello Vibes Games
 
-The home for all the Mello Vibes browser games. It's a single-page showcase with a playable demo, an interactive fighter-select screen and a look under the hood. Every card links out to the live game.
+The home for all the Mello Vibes browser games. It's a single-page showcase with a playable demo, an interactive fighter-select screen and a look under the hood. Every card links out to the live game. Those addresses are defined in `public/js/game-urls.js` (the table below mirrors the current values).
 
 | Game | Live | Source |
 |---|---|---|
@@ -27,7 +27,7 @@ The home for all the Mello Vibes browser games. It's a single-page showcase with
 - **Playable ORBYT.** An under-300-line canvas remake of ORBYT's core loop (`js/orbyt.js`): perfects, combos and direction flips every 25 points, with your best score saved locally.
 - **Under the hood.** An animated rollback-netcode timeline, a synthwave riff generated live with Web Audio (`js/synth.js`), a chart of real build sizes, and notes on multiplayer and anti-cheat.
 
-All the content lives in **`public/js/data.js`**, the single source of truth. Every section renders from it, and the build step reads it too.
+All the content lives in **`public/js/data.js`**, the single source of truth. Live game URLs are the exception: they live only in **`public/js/game-urls.js`**, so a hostname can be swapped in one place. Every section renders from that data, and the build step reads it too.
 
 It has no framework and no dependencies. It's plain HTML, CSS and ES modules.
 
@@ -36,6 +36,7 @@ It has no framework and no dependencies. It's plain HTML, CSS and ES modules.
 public/
   index.html              page shell and static copy
   css/site.css            design tokens → components → sections
+  js/game-urls.js         live URL for each game (the only place those addresses are written)
   js/data.js              games, filters, fighters, build sizes
   js/main.js              hero, lineup, sheet, roster, demo, bento, reveal
   js/orbyt.js             the mini-game engine (also runs the hero's ORBYT slide)
@@ -44,6 +45,7 @@ public/
   shots/                  gameplay screenshots
   cast/                   transparent 3D renders (fighters, cars, food)
   og.png, icon-*.png, manifest.webmanifest
+  robots.txt, sitemap.xml, llms.txt   written by the build from data.js
 art/                      HTML sources for og.png and the icons
 tools/
   finalize.mjs            Vercel build step: stamps the site URL, prerenders JSON-LD + <noscript> from data.js
@@ -62,7 +64,7 @@ npx serve public          # or: python3 -m http.server -d public
 ```
 
 ## Add a new game
-1. Add an entry to `GAMES` in `public/js/data.js`. The `@typedef` at the top documents every field.
+1. Add its live URL to `GAME_URLS` in `public/js/game-urls.js`, then add an entry to `GAMES` in `public/js/data.js` with `url: GAME_URLS.<id>`. The `@typedef` at the top documents every field.
 2. Put its art in place. The easiest way is to add it to the lists in `tools/build-assets.mjs` and run:
    ```bash
    node tools/build-assets.mjs ..   # the folder that holds the game repos

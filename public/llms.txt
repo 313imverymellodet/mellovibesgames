@@ -1,0 +1,24 @@
+# Mello Vibes Games
+
+> Ten free browser games, zero downloads. Play on a phone or a computer at https://play.mellovibes.io.
+
+Mello Vibes Games is a one-page hub for ten games built in Unity 6 and shipped to the web as WebAssembly. Nothing to install and no account required. The hub is a single URL, https://play.mellovibes.io/. Each game is its own site, linked below. This domain has no other HTML pages.
+
+The page has one top-level heading, "Ten games. Zero downloads." It publishes a schema.org ItemList of VideoGame entries for the same ten games, plus a no-JavaScript list of those games and their key art.
+
+## Games
+
+- [Kart Chaos](https://kartchaos.vercel.app): Kart battle arena. Grab coins, fire rockets and spin out your rivals in 2:30 kart battles for up to 8 drivers. Bots fill every empty seat. Signature mechanic, Coin Heist: Coins are your score. Hit a kart and half its coins burst out for anyone to grab, and whoever carries the most wears the golden crown. Players: 1–8.
+- [Obby Rush](https://obbyrush.vercel.app): 3D obstacle speedruns. Speedrun 3D obstacle courses, and when you miss a jump, rewind time. Race your ghost, the world record or up to 8 players live. Signature mechanic, Rewind: Hold REWIND to scrub back the last 3 seconds and undo a missed jump. The clock keeps running, so a no-rewind run is the real flex. Players: 1–8.
+- [Snack Monster](https://snackmerge.vercel.app): Merge puzzle. Drop snacks in the jar, merge two of a kind into the next one up, and feed the hungry monster what it craves before it gets grumpy. Signature mechanic, The Monster: A monster leans on the jar craving one snack at a time. Merge into it and its tongue snatches it out for big points. Keep it waiting and it stomps the jar. Players: 1.
+- [Orbit Depot](https://orbitdepot.vercel.app): Idle warehouse tycoon. Run a fulfillment floor on a space station: receive cargo, rack it, pick orders, pack, sort and ship across the galaxy. Signature mechanic, Seven Stations: One loop from dock to dock: receive, store, restock, pick, pack, sort and ship. Hire bots and crew to run each station while you grow the depot. Players: 1.
+- [Bonk Brawl](https://bonkbrawl.vercel.app): Party platform fighter. Knock your friends off the stage. Weapons fall from the sky, and fighters from across the collection join the brawl. Signature mechanic, Hat Stack: Everyone starts with a party hat. KO a rival and their whole stack jumps onto your head. Each hat makes you heavier but slower, and the tallest stack wins ties. Players: 1–4.
+- [City Rush](https://cityrush-pearl.vercel.app): Arcade street racing. Weave through live city traffic, chain near misses into nitro and race real players through neon downtown and sunny suburbs. Signature mechanic, Traffic Weave: Races run through live city traffic. Skim past cars for near-miss nitro combos, and shove rivals into traffic for takedowns. Players: 1–4.
+- [Order Up!](https://orderup-three.vercel.app): Co-op rhythm kitchen. Chop, cook and serve to the beat, solo or with up to four chefs online. Signature mechanic, Kitchen Beats: The kitchen runs on the music. Chop on the beat for double speed, serve on the beat for 1.5× tips, and keep the crew's beat streak alive to multiply every tip. Players: 1–4.
+- [ORBYT](https://orbyt-wine.vercel.app): One-tap arcade. One tap. Two orbits. No mercy. Dodge spikes, chain perfects, and outlive the echo of your last run. Signature mechanic, Echo: Your last run comes back as a ghost orb riding the other way. Touch it and you're out, slip past it for +2, outlive it for +5. Players: 1–2.
+- [Grave Shift](https://graveshift.vercel.app): Horde survival shooter. One thumb, endless undead, and only your lantern's light to fight by. Survive the graveyard until dawn. Signature mechanic, Lantern: The graveyard is pitch dark. Your weapons only reach what your lantern lights, and it burns down, so grab oil from the dark to keep it going. Players: 1.
+- [Space Diner](https://spacediner.vercel.app): Cozy idle tycoon. Run a burger joint on the Moon, fling food across the diner in low gravity, then launch it to Mars and Europa. Signature mechanic, Zero-G Toss: It's low gravity on the Moon: hold TOSS to aim, then fling your whole food stack onto the counter. Long tosses earn tips, and bullseyes double them. Players: 1.
+
+## Optional
+
+- [Mello Vibes Games](https://play.mellovibes.io/): The hub. Lineup, how to play, the Bonk Brawl fighter roster, and a small playable ORBYT demo written for the page.

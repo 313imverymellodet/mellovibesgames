@@ -13,6 +13,14 @@ const store = {
 const REPO = (id) => `https://github.com/313imverymellodet/${id}`;
 const ARROW = '<span aria-hidden="true">→</span>';
 
+// Static copy that names a live game reads the same URL map as every other link.
+{
+  const full = document.querySelector(".try a.btn-primary");
+  if (full) full.href = gameById.orbyt.url;
+  const host = document.querySelector(".room-host");
+  if (host) host.textContent = new URL(gameById.bonkbrawl.url).host;
+}
+
 /** Runs `onChange(visible)` whenever `el` enters or leaves the viewport. */
 function watchVisible(el, onChange, rootMargin = "0px") {
   new IntersectionObserver(([e]) => onChange(e.isIntersecting), { rootMargin }).observe(el);

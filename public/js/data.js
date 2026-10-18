@@ -1,6 +1,10 @@
-// Single source of truth for the site. Everything on the page renders from these objects,
-// and tools/finalize.mjs reads them at build time to prerender the JSON-LD and <noscript> list.
-// To add a game: add an entry to GAMES and drop its art in /games/<id>/ (see README).
+import { GAME_URLS } from "./game-urls.js";
+
+// Single source of truth for the site, except live game URLs, which live in
+// game-urls.js so they can be swapped in one place. Everything on the page
+// renders from these objects, and tools/finalize.mjs reads them at build time
+// to prerender the JSON-LD, the <noscript> list, robots.txt, sitemap.xml and llms.txt.
+// To add a game: add an entry to GAMES, add its URL to game-urls.js, and drop its art in /games/<id>/ (see README).
 
 /**
  * @typedef {Object} Game
@@ -31,7 +35,7 @@ export const GAMES = [
     id: "kartchaos",
     name: "Kart Chaos",
     genre: "Kart battle arena",
-    url: "https://kartchaos.vercel.app",
+    url: GAME_URLS.kartchaos,
     accent: "#ff4f8b", ink: "#1f0612", bg: "#1b1340",
     pitch: "Grab coins, fire rockets and spin out your rivals in 2:30 kart battles for up to 8 drivers. Bots fill every empty seat.",
     hook: { name: "Coin Heist", text: "Coins are your score. Hit a kart and half its coins burst out for anyone to grab, and whoever carries the most wears the golden crown." },
@@ -67,7 +71,7 @@ export const GAMES = [
     id: "obbyrush",
     name: "Obby Rush",
     genre: "3D obstacle speedruns",
-    url: "https://obbyrush.vercel.app",
+    url: GAME_URLS.obbyrush,
     accent: "#8f7bff", ink: "#0e0826", bg: "#1b1340",
     pitch: "Speedrun 3D obstacle courses, and when you miss a jump, rewind time. Race your ghost, the world record or up to 8 players live.",
     hook: { name: "Rewind", text: "Hold REWIND to scrub back the last 3 seconds and undo a missed jump. The clock keeps running, so a no-rewind run is the real flex." },
@@ -106,7 +110,7 @@ export const GAMES = [
     id: "snackmerge",
     name: "Snack Monster",
     genre: "Merge puzzle",
-    url: "https://snackmerge.vercel.app",
+    url: GAME_URLS.snackmerge,
     accent: "#ff5e7e", ink: "#2a0610", bg: "#fff1e4",
     pitch: "Drop snacks in the jar, merge two of a kind into the next one up, and feed the hungry monster what it craves before it gets grumpy.",
     hook: { name: "The Monster", text: "A monster leans on the jar craving one snack at a time. Merge into it and its tongue snatches it out for big points. Keep it waiting and it stomps the jar." },
@@ -143,7 +147,7 @@ export const GAMES = [
     id: "orbitdepot",
     name: "Orbit Depot",
     genre: "Idle warehouse tycoon",
-    url: "https://orbitdepot.vercel.app",
+    url: GAME_URLS.orbitdepot,
     accent: "#5aa9ff", ink: "#03122a", bg: "#070b18",
     pitch: "Run a fulfillment floor on a space station: receive cargo, rack it, pick orders, pack, sort and ship across the galaxy.",
     hook: { name: "Seven Stations", text: "One loop from dock to dock: receive, store, restock, pick, pack, sort and ship. Hire bots and crew to run each station while you grow the depot." },
@@ -182,7 +186,7 @@ export const GAMES = [
     id: "bonkbrawl",
     name: "Bonk Brawl",
     genre: "Party platform fighter",
-    url: "https://bonkbrawl.vercel.app",
+    url: GAME_URLS.bonkbrawl,
     accent: "#ff3d7f", ink: "#1a0614", bg: "#140a28",
     pitch: "Knock your friends off the stage. Weapons fall from the sky, and fighters from across the collection join the brawl.",
     hook: { name: "Hat Stack", text: "Everyone starts with a party hat. KO a rival and their whole stack jumps onto your head. Each hat makes you heavier but slower, and the tallest stack wins ties." },
@@ -223,7 +227,7 @@ export const GAMES = [
     id: "cityrush",
     name: "City Rush",
     genre: "Arcade street racing",
-    url: "https://cityrush-pearl.vercel.app",
+    url: GAME_URLS.cityrush,
     accent: "#ff4f93", ink: "#1a0610", bg: "#0d0b1a",
     pitch: "Weave through live city traffic, chain near misses into nitro and race real players through neon downtown and sunny suburbs.",
     hook: { name: "Traffic Weave", text: "Races run through live city traffic. Skim past cars for near-miss nitro combos, and shove rivals into traffic for takedowns." },
@@ -259,7 +263,7 @@ export const GAMES = [
     id: "orderup",
     name: "Order Up!",
     genre: "Co-op rhythm kitchen",
-    url: "https://orderup-three.vercel.app",
+    url: GAME_URLS.orderup,
     accent: "#ff6a3d", ink: "#1f0a02", bg: "#2a150b",
     pitch: "Chop, cook and serve to the beat, solo or with up to four chefs online.",
     hook: { name: "Kitchen Beats", text: "The kitchen runs on the music. Chop on the beat for double speed, serve on the beat for 1.5× tips, and keep the crew's beat streak alive to multiply every tip." },
@@ -297,7 +301,7 @@ export const GAMES = [
     id: "orbyt",
     name: "ORBYT",
     genre: "One-tap arcade",
-    url: "https://orbyt-wine.vercel.app",
+    url: GAME_URLS.orbyt,
     accent: "#3ee8ff", ink: "#021a1f", bg: "#0b0620",
     pitch: "One tap. Two orbits. No mercy. Dodge spikes, chain perfects, and outlive the echo of your last run.",
     hook: { name: "Echo", text: "Your last run comes back as a ghost orb riding the other way. Touch it and you're out, slip past it for +2, outlive it for +5." },
@@ -330,7 +334,7 @@ export const GAMES = [
     id: "graveshift",
     name: "Grave Shift",
     genre: "Horde survival shooter",
-    url: "https://graveshift.vercel.app",
+    url: GAME_URLS.graveshift,
     accent: "#6dffae", ink: "#03190c", bg: "#0b0a17",
     pitch: "One thumb, endless undead, and only your lantern's light to fight by. Survive the graveyard until dawn.",
     hook: { name: "Lantern", text: "The graveyard is pitch dark. Your weapons only reach what your lantern lights, and it burns down, so grab oil from the dark to keep it going." },
@@ -368,7 +372,7 @@ export const GAMES = [
     id: "spacediner",
     name: "Space Diner",
     genre: "Cozy idle tycoon",
-    url: "https://spacediner.vercel.app",
+    url: GAME_URLS.spacediner,
     accent: "#ffc53d", ink: "#1f1400", bg: "#10163a",
     pitch: "Run a burger joint on the Moon, fling food across the diner in low gravity, then launch it to Mars and Europa.",
     hook: { name: "Zero-G Toss", text: "It's low gravity on the Moon: hold TOSS to aim, then fling your whole food stack onto the counter. Long tosses earn tips, and bullseyes double them." },
