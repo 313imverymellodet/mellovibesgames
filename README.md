@@ -4,6 +4,7 @@ The home for all the Mello Vibes browser games. It's a single-page showcase with
 
 | Game | Live | Source |
 |---|---|---|
+| Bannerfall | https://bannerfall-lac.vercel.app | [bannerfall](https://github.com/313imverymellodet/bannerfall) |
 | Kart Chaos | https://kartchaos.vercel.app | [kartchaos](https://github.com/313imverymellodet/kartchaos) |
 | Obby Rush | https://obbyrush.vercel.app | [obbyrush](https://github.com/313imverymellodet/obbyrush) |
 | Snack Monster | https://snackmerge.vercel.app | [snackmerge](https://github.com/313imverymellodet/snackmerge) |

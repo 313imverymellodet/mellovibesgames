@@ -23,11 +23,12 @@ let chromium;
 try { ({ chromium } = await import("playwright")); }
 catch { ({ chromium } = await import(path.join(process.env.PLAYWRIGHT_DIR || "/opt/node22/lib/node_modules/playwright", "index.mjs"))); }
 
-const GAMES = ["kartchaos", "obbyrush", "snackmerge", "orbitdepot", "bonkbrawl", "cityrush", "orderup", "orbyt", "graveshift", "spacediner"];
+const GAMES = ["bannerfall", "kartchaos", "obbyrush", "snackmerge", "orbitdepot", "bonkbrawl", "cityrush", "orderup", "orbyt", "graveshift", "spacediner"];
 
 // [source (relative to SRC), output name, max width, quality, optional crop [x, y, w, h] in source pixels]
 const SHOTS = [
   ["orbitdepot/art/bg.png", "orbitdepot", 1600, 0.8],
+  ["bannerfall/art/bg.png", "bannerfall", 1600, 0.8],
   ["kartchaos/portal-art/raw/land-3.png", "kartchaos", 1600, 0.8],
   // no clean portrait capture: crop the jar out of the store art
   ["snackmerge/portal-art/cg-portrait-800x1200.png", "snackmerge-portrait", 600, 0.8, [40, 270, 720, 930]],

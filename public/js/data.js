@@ -28,6 +28,44 @@
 export const GAMES = [
   // ---------------------------------------------------------------- new in October
   {
+    id: "bannerfall",
+    name: "Bannerfall",
+    genre: "Real-time strategy",
+    url: "https://bannerfall-lac.vercel.app",
+    accent: "#e6c26a", ink: "#1f1600", bg: "#14202e",
+    pitch: "Gather, build and advance through three ages, then conquer three rival kingdoms for the island crown. Real-time strategy built for your phone.",
+    hook: { name: "Three Ages", text: "Grow from a village to a kingdom: each age unlocks new units, from swordsmen and scouts to archers, monks and finally catapults, rams and the Royal Guard." },
+    badge: "New",
+    word: "Conquer",
+    tags: ["Vs 3 AI kingdoms", "12 technologies", "Fog of war"],
+    filters: ["phone"],
+    players: "1",
+    stage: {
+      screen: { kind: "wide", src: "/shots/bannerfall.webp", w: 1600, h: 840 },
+      cast: [
+        { src: "/cast/obby-knight.webp", x: -6, y: 40, h: 52, depth: 1.2, r: -5 },
+        { src: "/cast/obby-ranger.webp", x: 80, y: 42, h: 50, depth: 1, r: 5, flip: true },
+        { src: "/cast/obby-mage.webp", x: 72, y: -6, h: 28, depth: 1.6, r: 8 },
+      ],
+    },
+    howTo: [
+      "Send villagers to chop wood, mine gold, forage and farm. They carry each load home to the castle or a drop-off.",
+      "Build houses to raise your population, then barracks, towers and a blacksmith as you advance through three ages.",
+      "Mind the combat triangle: swordsmen beat archers, archers beat berserkers, and berserkers' axes split armour.",
+      "A kingdom falls when its castle falls. Bring down all three rival castles to take the crown.",
+    ],
+    controls: {
+      cols: ["Action", "Mouse / keys", "Touch"],
+      rows: [
+        ["Pan & zoom", "WASD / arrows, wheel", "Drag, pinch"],
+        ["Select", "Left-click or drag a box", "Tap, or hold and drag"],
+        ["Order", "Right-click", "Tap again"],
+        ["Idle villager / army / castle", ". / , / H", "Command buttons"],
+      ],
+    },
+    modes: ["3 AI difficulty levels", "Three ages", "12 technologies", "Guided first game"],
+  },
+  {
     id: "kartchaos",
     name: "Kart Chaos",
     genre: "Kart battle arena",
@@ -299,8 +337,8 @@ export const GAMES = [
     genre: "One-tap arcade",
     url: "https://orbyt-wine.vercel.app",
     accent: "#3ee8ff", ink: "#021a1f", bg: "#0b0620",
-    pitch: "One tap. Two orbits. No mercy. Dodge spikes, chain perfects, and outlive the echo of your last run.",
-    hook: { name: "Echo", text: "Your last run comes back as a ghost orb riding the other way. Touch it and you're out, slip past it for +2, outlive it for +5." },
+    pitch: "One tap. Two orbits. No mercy. Dodge spikes, chain perfects, and turn on ECHO to race the ghost of your last run.",
+    hook: { name: "Echo", text: "Switch on ECHO and your last run comes back as a ghost orb riding the other way. Touch it and you're out, slip past it for +2, outlive it for +5." },
     word: "Tap",
     tags: ["Echo", "Live duels", "Daily challenge"],
     filters: ["online", "phone"],
@@ -317,7 +355,7 @@ export const GAMES = [
     howTo: [
       "Tap anywhere to jump between the inner and outer orbit, and dodge the spikes riding the rings.",
       "Switch at the last possible moment for a PERFECT. Chain them for combos.",
-      "Your last run comes back as an echo riding the other way. Slip past it for +2, outlive it for +5.",
+      "Turn on ECHO from the menu and your last run rides the rings the other way. Slip past it for +2, outlive it for +5.",
       "Every 25 points the orbit flips direction and the colors shift.",
     ],
     controls: {
@@ -336,7 +374,7 @@ export const GAMES = [
     hook: { name: "Lantern", text: "The graveyard is pitch dark. Your weapons only reach what your lantern lights, and it burns down, so grab oil from the dark to keep it going." },
     badge: "Spooktober",
     word: "Survive",
-    tags: ["One thumb", "Pitch-dark nights", "Pumpkin King boss"],
+    tags: ["One thumb", "Blood Moon level", "6 bosses"],
     filters: ["phone"],
     players: "1",
     stage: {
@@ -352,7 +390,7 @@ export const GAMES = [
       "Move with one thumb. Aiming and firing are automatic, but only reach as far as your lantern's light.",
       "The lantern burns down. Grab oil from the dark, or from tough undead, to keep it lit.",
       "Pick up XP gems to level up, then choose a new weapon or upgrade. Bosses, including the Pumpkin King, arrive through the night.",
-      "Survive 8 minutes until dawn, then spend gold in the Crypt Shop to come back stronger.",
+      "Beat the Rotting Giant, Count Noctis and the Orc Warlord to unlock Level 2: BLOOD MOON, with a harder horde and three new bosses.",
     ],
     controls: {
       cols: ["Action", "Keyboard", "Touch"],
@@ -362,7 +400,7 @@ export const GAMES = [
         ["Pause", "Esc / P", "Pause button"],
       ],
     },
-    modes: ["Survive until dawn", "Lantern & oil", "Bosses", "Crypt Shop upgrades", "Spooktober candy & hats"],
+    modes: ["Graveyard & Blood Moon levels", "Lantern & oil", "6 bosses", "Crypt Shop upgrades", "Spooktober candy & hats"],
   },
   {
     id: "spacediner",
@@ -435,9 +473,9 @@ export const FIGHTERS = [
 
 // Brotli-compressed WebGL build size per game (sum of dist/Build/*), in bytes.
 export const BUILD_BYTES = {
-  kartchaos: 5572574, obbyrush: 6825464, snackmerge: 5705992, orbitdepot: 5937643,
+  bannerfall: 7161575, kartchaos: 5572574, obbyrush: 6825464, snackmerge: 5705992, orbitdepot: 5937643,
   bonkbrawl: 6713321, cityrush: 5978748, orderup: 5813073,
-  orbyt: 5193857, graveshift: 6390305, spacediner: 5753457,
+  orbyt: 5194868, graveshift: 6398057, spacediner: 5753457,
 };
 
 export const gameById = Object.fromEntries(GAMES.map((g) => [g.id, g]));
